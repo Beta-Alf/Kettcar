@@ -4,6 +4,7 @@ messages. It can then generate SemVer versions based on the occurences of these
 commit messages.
 """
 import git
+import argparse
 import re
 
 
@@ -14,7 +15,10 @@ def parse_commit_message(message):
 
 
 if __name__ == '__main__':
-    commits = list(git.Repo("./").iter_commits())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", help="Path of the repo to be analyzed")
+    args = parser.parse_args()
+    commits = list(git.Repo(args.path).iter_commits())
     for c in commits[::-1]:
         parse_commit_message(c.message)
 
